@@ -1,3 +1,4 @@
+
 let genderState = null;   // 1 = Raja, 0 = Rani
 let mic;
 let listeningForResponse = false;
@@ -167,7 +168,6 @@ window.onload = () => {
 
     // --- Button Element Definitions (Kept as is) ---
     const beginBtn = document.getElementById("beginBtn");
-    const beginBubBtn = document.getElementById("beginBubBtn");
     const rajaBtn = document.getElementById("rajaBtn");
     const raniBtn = document.getElementById("raniBtn");
     const startBtn = document.getElementById("startBtn");
@@ -235,7 +235,7 @@ window.onload = () => {
     * Checks the current dialed number and enables/disables the Call button.
     */
     const checkCallButtonState = () => {
-        if (dialedNumber === "995") {
+        if (dialedNumber === "112") {
             callBtn.disabled = false;
             callBtn.style.opacity = 1.0; 
         } else {
@@ -306,7 +306,7 @@ window.onload = () => {
 
     // --- Initialize Dial Pad State ---
     checkCallButtonState(); // Make sure the call button is disabled on load
-    dialDisplay.textContent = "995"; // Set initial placeholder text
+    dialDisplay.textContent = "112"; // Set initial placeholder text
     dialDisplay.classList.add("empty"); 
 
     // ========================================
@@ -340,29 +340,7 @@ window.onload = () => {
     };
     beginBtn.onclick = handleBegin;
     beginBtn.addEventListener('touchstart', handleBegin);
-// skip to play
-  const handleBubbleShortcut = () => {
-    userStartAudio();
 
-    // STOP the "ghost" timers so they don't hijack the screen later
-    [t1, t2, t3, t4, t5, t6].forEach(t => clearTimeout(t));
-
-    // UI Logic
-    begin1.style.display = "none"; // Hide the start screen
-    intro.style.display = "none";
-    cpr4.style.display = "none";   // Hide the previous CPR screen if it was open
-    cpr5.style.display = "flex";   // Show the target screen
-    
-    // Audio Logic
-    introAudio.pause();
-    introAudio.currentTime = 0;
-    cprC4aud.stop();
-    cprBeginaud.play();
-    };
-    
-    beginBubBtn.onclick = handleBubbleShortcut;
-    beginBubBtn.addEventListener('touchstart', handleBubbleShortcut);
-    
     // Button: rajaBtn
     const handleRaja = () => {
         genderState = 1; // ✔ Raja
@@ -713,7 +691,6 @@ window.onload = () => {
         
         addspeaker.style.display = "none";
         addedspeaker.style.display = "flex";
-      
 
         // Step 1: After 10s → show victiminca
         t1 = setTimeout(() => {
@@ -762,21 +739,10 @@ window.onload = () => {
 
 
     // CPR Instructions Navigation
-  const stopAllCPRAudio = () => {
-    victimaud.stop();
-    addspeakeraud.stop();
-    cprC1aud.stop();
-    cprC2aud.stop();
-    cprC3aud.stop();
-    cprC4aud.stop();
-    // Clear ALL timers so the screen stops jumping
-    [t1, t2, t3, t4, t5, t6].forEach(t => clearTimeout(t));
-};
 
     // Button: nextc1
     const handleNextC1 = () => {
         clearTimeout(t1);
-      stopAllCPRAudio();
       cprC2aud.play();
       cprC1aud.stop();
         cpr1.style.display = "none";
@@ -790,7 +756,6 @@ window.onload = () => {
     const handleNextC2 = () => {
         clearTimeout(t1);
         clearTimeout(t2);
-      stopAllCPRAudio();
       cprC3aud.play();
       cprC2aud.stop();
         cpr2.style.display = "none";
@@ -805,7 +770,6 @@ window.onload = () => {
         clearTimeout(t1);
         clearTimeout(t2);
         clearTimeout(t3);
-      stopAllCPRAudio();
       cprC4aud.play();
       cprC3aud.stop();
         cpr3.style.display = "none";
@@ -821,7 +785,6 @@ window.onload = () => {
         clearTimeout(t2);
         clearTimeout(t3);
         clearTimeout(t4);
-      stopAllCPRAudio();
       cprBeginaud.play();
       cprC4aud.stop();
         cpr4.style.display = "none";
@@ -1408,5 +1371,4 @@ function touchStarted() {
   mousePressed(); // Use the same logic
   return false; // Prevent default browser touch behavior
 }
-
 
